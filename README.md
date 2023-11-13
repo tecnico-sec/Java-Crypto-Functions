@@ -154,24 +154,26 @@ CBC (Cipher Block Chaining) mode has a significant advantage over ECB: data patt
 Implement CBC mode by modifying the `SymCryptoTest` class.
 This involves creating a random Initialization Vector (IV) for each encryption session and managing it appropriately during decryption.
 
+Use a repeated pattern in the input data, like `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`  
+and compare the output of the cipher using ECB and CBC modes.
+
 ### 2. Test the Tamper Detection of either the MAC or the Digital Signature
 
 Investigate the effectiveness of MAC or digital signature in detecting data tampering.
 Intentionally modify the protected data and confirm that the verification code accurately detects the alteration.
-This exercise underscores the importance of integrity checks in cryptographic systems.
-It is not enough to add the MAC or signature, but it has to be verified in a robust way.
+This exercise underscores the importance of integrity checks in cryptographic systems: it is not enough to add the MAC or signature, but it must also be verified in a robust way.
 
 ### 3. Add Freshness to either the MAC or the Digital Signature
 
-Incorporate a freshness element, like a nonce (number used once) or a timestamp, to provide replay attack detection in either MAC or digital signature implementations.
+Incorporate a freshness element, a nonce (*number used once*), to provide replay attack detection in either the MAC or digital signature code.
 Experiment with unique message numbers or timestamps as nonces.
 Assess how each approach might be vulnerable to specific types of attacks, and consider strategies to mitigate these vulnerabilities.
-This exercise emphasizes the significance of freshness in enhancing the security of cryptographic protocols.
+This exercise emphasizes the significance of freshness in detecting replay attacks.
 
 ### 4. Measure the operation times
 
 Record the operation times for key generation, encryption, and decryption.
-In Java, you can use `System.currentTimeMillis()` to get the current time in milliseconds as a long value.
+In Java, you can use `System.currentTimeMillis()` to get the current time in milliseconds as a value of type `long`.
 
 Compare symmetric (AES) and asymmetric (RSA) operations for the same size of input data.
 Compile the results in a table to contrast the efficiency of symmetric and asymmetric cryptography in terms of processing speed.
