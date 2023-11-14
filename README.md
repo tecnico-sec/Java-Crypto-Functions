@@ -96,7 +96,7 @@ There are three key areas: symmetric cryptography, asymmetric cryptography, and 
 
 Symmetric cryptography in this project is implemented using AES in ECB mode with PKCS5 Padding.
 AES operates with a block size of 128 bits (16 bytes).
-ECB mode, a basic block cipher encryption technique, processes each block independently.
+ECB mode, a basic block cipher encryption technique, processes each block independently  ([ECB architecture](img/ECB.png)).
 PKCS5 Padding ensures that the overall data size is a multiple of 16 bytes.
 
 The `SymCryptoTest` class demonstrates these concepts, focusing on key generation, encryption and decryption. Notably, the `testSymCrypto` method provides a comprehensive look at these operations. `KeyGenerator` is employed for creating AES keys, illustrating key aspects of symmetric encryption in Java.
@@ -150,7 +150,7 @@ Each of the following exercises aims to deepen the understanding of cryptographi
 
 ### 1. Switch the Cipher Mode of AES to CBC
 
-CBC (Cipher Block Chaining) mode has a significant advantage over ECB: data pattern obfuscation.
+CBC (Cipher Block Chaining) mode has a significant advantage over ECB: data pattern obfuscation ([CBC architecture](img/CBC.png)).
 Implement CBC mode by modifying the `SymCryptoTest` class.
 This involves creating a random Initialization Vector (IV) for each encryption session and managing it appropriately during decryption.
 
