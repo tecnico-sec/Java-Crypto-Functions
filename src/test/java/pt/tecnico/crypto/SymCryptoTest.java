@@ -11,7 +11,7 @@ import javax.crypto.KeyGenerator;
 import org.junit.jupiter.api.Test;
 
 public class SymCryptoTest {
-    /** Plain text to cipher. */
+	/** Plain text to cipher. */
 	private final String plainText = "This is the plain text!";
 	/** Plain text bytes. */
 	private final byte[] plainBytes = plainText.getBytes();
@@ -30,7 +30,7 @@ public class SymCryptoTest {
 	 * 
 	 * @throws Exception because test is not concerned with exception handling
 	 */
-    @Test
+	@Test
 	public void testSymCrypto() throws Exception {
 		System.out.print("TEST '");
 		System.out.print(SYM_CIPHER);
@@ -50,30 +50,30 @@ public class SymCryptoTest {
 		System.out.println(printHexBinary(key.getEncoded()));
 
 		// get a AES cipher object and print the provider
-        Cipher cipher = Cipher.getInstance(SYM_CIPHER);
-        System.out.println(cipher.getProvider().getInfo());
+		Cipher cipher = Cipher.getInstance(SYM_CIPHER);
+		System.out.println(cipher.getProvider().getInfo());
 
-        // encrypt using the key and the plain text
-        System.out.println("Ciphering...");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] cipherBytes = cipher.doFinal(plainBytes);
-        System.out.print("Result: ");
-        System.out.println(printHexBinary(cipherBytes));
+		// encrypt using the key and the plain text
+		System.out.println("Ciphering...");
+		cipher.init(Cipher.ENCRYPT_MODE, key);
+		byte[] cipherBytes = cipher.doFinal(plainBytes);
+		System.out.print("Result: ");
+		System.out.println(printHexBinary(cipherBytes));
 
-        // decipher the cipher text using the same key
-        System.out.println("Deciphering...");
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] newPlainBytes = cipher.doFinal(cipherBytes);
-        System.out.print("Result: ");
-        System.out.println(printHexBinary(newPlainBytes));
+		// decipher the cipher text using the same key
+		System.out.println("Deciphering...");
+		cipher.init(Cipher.DECRYPT_MODE, key);
+		byte[] newPlainBytes = cipher.doFinal(cipherBytes);
+		System.out.print("Result: ");
+		System.out.println(printHexBinary(newPlainBytes));
 
-        System.out.println("Text:");
-        String newPlainText = new String(newPlainBytes);
-        System.out.println(newPlainText);
+		System.out.println("Text:");
+		String newPlainText = new String(newPlainBytes);
+		System.out.println(newPlainText);
 
-        assertEquals(plainText, newPlainText);
+		assertEquals(plainText, newPlainText);
 
-        System.out.println();
 		System.out.println();
-    }
+		System.out.println();
+	}
 }

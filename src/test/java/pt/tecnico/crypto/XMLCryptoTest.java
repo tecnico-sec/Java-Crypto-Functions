@@ -175,7 +175,7 @@ public class XMLCryptoTest {
 		System.out.println();
 
 		assertEquals(plainText, newPlainText);
-		
+
 		System.out.println();
 		System.out.println();
 	}
