@@ -22,7 +22,7 @@ The code includes symmetric cryptography, asymmetric cryptography, digest functi
 
 To run the default example using the execution plug-in:
 
-```
+```sh
 mvn compile exec:java
 ```
 
@@ -39,23 +39,22 @@ The numbers are printed as hexadecimal values.
 
 To run a specific example, select the profile with -P:
 
-```
+```sh
 mvn exec:java -P list-algos
 ```
 
 To list available profiles (one for each example):
 
-```
+```sh
 mvn help:all-profiles
 ```
-
 
 ## Tests
 
 In the `src/test/java` folder you can find unit tests for the most important cryptographic primitives:
 
 - *SymCrypto* generates a key and uses it to cipher and decipher data with a symmetric cipher.
- 
+
 - *AsymCrypto* generates a key pair and uses the public key to cipher and the private key to decipher data (and then the other way around).
 
 - *Digest* creates a cryptographic hash.
@@ -69,22 +68,21 @@ Similar techniques can applied to other text-based formats, like JSON.
 
 To compile and execute all tests:
 
-```
+```sh
 mvn test
 ```
 
 To execute a specific test suite:
 
-```
+```sh
 mvn test -Dtest=AsymCrypto*
 ```
 
 To execute a specific test:
 
-```
+```sh
 mvn test -Dtest=AsymCrypto*#testCipherPrivate*
 ```
-
 
 # Lab Guide
 
@@ -96,19 +94,18 @@ There are three key areas: symmetric cryptography, asymmetric cryptography, and 
 
 Symmetric cryptography in this project is implemented using AES in ECB mode with PKCS5 Padding.
 AES operates with a block size of 128 bits (16 bytes).
-ECB mode, a basic block cipher encryption technique, processes each block independently  ([ECB architecture](img/ECB.png)).
+[ECB mode ciphers each block independently](img/ECB.png).
 PKCS5 Padding ensures that the overall data size is a multiple of 16 bytes.
 
 The `SymCryptoTest` class demonstrates these concepts, focusing on key generation, encryption and decryption. Notably, the `testSymCrypto` method provides a comprehensive look at these operations. `KeyGenerator` is employed for creating AES keys, illustrating key aspects of symmetric encryption in Java.
 
-### AES Cipher Explanation
+### More about AES
 
 Advanced Encryption Standard (AES) is a symmetric block cipher adopted globally for secure data encryption.
 AES allows for key sizes of 128, 192, or 256 bits, with the number of encryption rounds being 10, 12, or 14 rounds, respectively, for these key sizes.
 It consistently encrypts data in fixed-size blocks of 128 bits, regardless of the key size used.
 Its architecture is designed to be resistant to various cryptanalytic attacks, making AES a robust and reliable choice for safeguarding sensitive information.
 The consistency in block size ensures uniformity in processing data blocks, contributing to its efficiency.
-
 
 ## Asymmetric Cryptography
 
@@ -117,7 +114,7 @@ Asymmetric cryptography in this project is demonstrated using the RSA algorithm,
 The `AsymCryptoTest` class emphasizes key pair generation, encryption/decryption processes, and result validation.
 The `testCipherPublicDecipherPrivate` and `testCipherPrivateDecipherPublic` methods offer practical insights into RSA's application, showcasing how public and private keys interact in data encryption and decryption.
 
-### RSA Explanation
+### More about RSA
 
 RSA, named after Rivest, Shamir, and Adleman, is a widely used asymmetric cryptographic algorithm.
 It relies on the mathematical properties of large prime numbers for secure data transmission.
@@ -150,12 +147,14 @@ Each of the following exercises aims to deepen the understanding of cryptographi
 
 ### 1. Switch the Cipher Mode of AES to CBC
 
-CBC (Cipher Block Chaining) mode has a significant advantage over ECB: data pattern obfuscation ([CBC architecture](img/CBC.png)).
+[CBC (Cipher Block Chaining) ciphers each block of plain data XORed with the previous ciphered data](img/CBC.png).  
+This has a significant advantage over ECB: plain data pattern obfuscation.
+
 Implement CBC mode by modifying the `SymCryptoTest` class.
 This involves creating a random Initialization Vector (IV) for each encryption session and managing it appropriately during decryption.
 
 Use a repeated pattern in the input data, like `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`  
-and compare the output of the cipher using ECB and CBC modes.
+and compare the output of the cipher using [ECB](img/ECB.png) and [CBC](img/CBC.png) modes.
 
 ### 2. Test the Tamper Detection of either the MAC or the Digital Signature
 

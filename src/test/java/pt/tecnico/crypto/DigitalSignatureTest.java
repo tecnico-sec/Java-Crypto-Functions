@@ -66,21 +66,6 @@ public class DigitalSignatureTest {
 		System.out.println("Signature is " + (result ? "right" : "wrong"));
 
 		assertTrue(result);
-
-		// data modification
-		plainBytes[3] = 12;
-		System.out.println("Tampered bytes: (look closely around the 7th hex character)");
-		System.out.println(printHexBinary(plainBytes));
-		System.out.println("      ^^");
-
-		// verify the signature
-		System.out.println("Verifying again...");
-		result = redigestDecipherCompare(cipherDigest, plainBytes, key);
-		System.out.println("Signature is " + (result ? "right" : "wrong"));
-		assertFalse(result);
-		
-		System.out.println();
-		System.out.println();
 	}
 
 	/** Generates a Key Pair to use for digital signature. */
@@ -153,20 +138,6 @@ public class DigitalSignatureTest {
 		System.out.println("Signature is " + (result ? "right" : "wrong"));
 		assertTrue(result);
 
-		// data modification
-		plainBytes[3] = 12;
-		System.out.println("Tampered bytes: (look closely around the 7th hex character)");
-		System.out.println(printHexBinary(plainBytes));
-		System.out.println("      ^^");
-
-		// verify the signature
-		System.out.println("Verifying again...");
-		result = redigestDecipherCompare(cipherDigest, plainBytes, key);
-		System.out.println("Signature is " + (result ? "right" : "wrong"));
-		assertFalse(result);
-
-		System.out.println();
-		System.out.println();
 	}
 
 	/** auxiliary method to calculate digest from text and cipher it */
