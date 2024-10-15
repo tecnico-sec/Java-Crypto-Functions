@@ -177,6 +177,98 @@ In Java, you can use `System.currentTimeMillis()` to get the current time in mil
 Compare symmetric (AES) and asymmetric (RSA) operations for the same size of input data.
 Compile the results in a table to contrast the efficiency of symmetric and asymmetric cryptography in terms of processing speed.
 
+## Solutions
+
+### 1. Switch the Cipher Mode of AES to CBC
+
+Modify the `SymCryptoTest` class to generate a random Initialization Vector (IV) for each encryption session:
+
+```Java
+System.out.println("Generating IV...");
+SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+byte[] ivBytes = new byte[Cipher.getInstance(SYM_CIPHER).getBlockSize()];
+secureRandom.nextBytes(ivBytes);
+IvParameterSpec iv = new IvParameterSpec(ivBytes);
+System.out.print("IV (in hexadecimal): ");
+System.out.println(printHexBinary(iv.getIV()));
+```
+
+Next, modify the cipher initialization to use the IV for both encryption and decryption:
+
+```Java
+cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+```
+```Java
+cipher.init(Cipher.DECRYPT_MODE, key, iv);
+```
+
+Don't forget to update `SYM_CIPHER` to use `AES/CBC/PKCS5Padding`.
+
+Upon making these changes, we can compare both modes.
+
+Using the input `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` allows us to compare the behavior of ECB and CBC modes. In ECB mode, we can see a repeated pattern in the ciphertext, reflecting the pattern in the plaintext (e.g., `80E556488BBD596D403DEA95E151782180E556488BBD596D403DEA95E1517821`). This does not occur in CBC mode, as each block is XORed with the previous ciphertext block, obfuscating the plaintext pattern.
+
+### 2. Test the Tamper Detection of either the MAC or the Digital Signature
+
+Modify the plain bytes after the digest is generated but before verification, simulating data tampering which should result in the verification process failing.
+
+For example, in `DigitalSignatureTest#testSignatureStepByStep`, you can randomly alter a byte in the `plainBytes` array like this:
+```Java
+Random random = new Random();
+int index = random.nextInt(plainBytes.length);
+plainBytes[index] = (byte) random.nextInt(256);
+```
+
+### 3. Add Freshness to either the MAC or the Digital Signature
+
+To add freshness and protect against replay attacks, we can introduce a freshness element, such as a nonce or a timestamp. As an example, we will modify `DigitalSignatureTest#testSignatureObject` to incorporate a timestamp.
+
+First, we must modify `makeDigitalSignature`, by appending the current timestamp to the data, ensuring a signature is unique to that moment:
+```Java
+ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + Long.BYTES);
+byteBuffer.put(bytes);
+long timestamp = System.currentTimeMillis();
+byteBuffer.putLong(timestamp);
+```
+Next, we compute the digital signature on this buffer:
+```Java
+sig.update(byteBuffer.array());
+```
+We then return the timestamp along with the signature so the receiver can validate them:
+```Java
+ByteBuffer result = ByteBuffer.allocate(signature.length + Long.BYTES);
+result.put(signature);
+result.putLong(timestamp);
+
+return result.array();
+```
+
+On the receiver's side, we extract the signature and the timestamp from the received data:
+```Java
+ByteBuffer byteBuffer = ByteBuffer.wrap(receivedSignature);
+byte[] signature = new byte[receivedSignature.length - Long.BYTES];
+byteBuffer.get(signature);
+long timestamp = byteBuffer.getLong();
+```
+Then, we combine the original message `bytes` and the retrieved timestamp to validate the signed content:
+```Java
+ByteBuffer dataBuffer = ByteBuffer.allocate(bytes.length + Long.BYTES);
+dataBuffer.put(bytes);
+dataBuffer.putLong(timestamp);
+byte[] dataToVerify = dataBuffer.array();
+```
+```Java
+sig.update(dataToVerify);
+```
+Finally, we verify whether the signature is valid or not and ensure the timestamp is still within an accepted time window:
+```Java
+return sig.verify(signature) && (System.currentTimeMillis() - timestamp <= 5000);
+```
+
+### 4. Measure the operation times
+
+The general conclusion should be that symmetric cryptography is much faster than asymmetric.
+
 ----
 
 [SIRS Faculty](mailto:meic-sirs@disciplinas.tecnico.ulisboa.pt)
