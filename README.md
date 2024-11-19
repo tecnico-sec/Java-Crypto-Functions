@@ -177,6 +177,12 @@ In Java, you can use `System.currentTimeMillis()` to get the current time in mil
 Compare symmetric (AES) and asymmetric (RSA) operations for the same size of input data.
 Compile the results in a table to contrast the efficiency of symmetric and asymmetric cryptography in terms of processing speed.
 
+### 5. Docs
+- [Cipher](https://docs.oracle.com/javase/8/docs/api///?javax/crypto/Cipher.html)
+- [IvParameterSpec](https://docs.oracle.com/javase/8/docs/api///?javax/crypto/Cipher.html)
+ 
+
+
 ----
 
 [SIRS Faculty](mailto:meic-sirs@disciplinas.tecnico.ulisboa.pt)
