@@ -179,7 +179,7 @@ Compile the results in a table to contrast the efficiency of symmetric and asymm
 
 ### 5. Docs
 - [Cipher](https://docs.oracle.com/javase/8/docs/api///?javax/crypto/Cipher.html)
-- [IvParameterSpec](https://docs.oracle.com/javase/8/docs/api///?javax/crypto/Cipher.html)
+- [IvParameterSpec](https://docs.oracle.com/javase/8/docs/api/index.html?javax/crypto/spec/IvParameterSpec.html)
  
 
 
