@@ -75,13 +75,13 @@ mvn test
 To execute a specific test suite:
 
 ```sh
-mvn test -Dtest=AsymCrypto*
+mvn test -Dtest=AsymCryptoTest
 ```
 
 To execute a specific test:
 
 ```sh
-mvn test -Dtest=AsymCrypto*#testCipherPrivate*
+mvn test -Dtest=AsymCrypto*#testCipherPublicDecipherPrivate
 ```
 
 # Lab Guide
